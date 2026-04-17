@@ -1,0 +1,28 @@
+{
+  "name": "adf-kit",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "bun build ./index.ts --outdir ./dist --target bun && tsc --project tsconfig.build.json",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "currency-codes-ts": "^3.0.0",
+    "fast-xml-parser": "^5.7.0",
+    "i18n-iso-countries": "^7.14.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
