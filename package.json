@@ -1,5 +1,5 @@
 {
-  "name": "adf-kit",
+  "name": "@uhteddy/adf-kit",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -11,7 +11,9 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "bun build ./index.ts --outdir ./dist --target bun --sourcemap=linked && tsc --project tsconfig.build.json",
     "typecheck": "tsc --noEmit"

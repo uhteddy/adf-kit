@@ -9,9 +9,9 @@ Zero runtime dependencies when installed from the distributed bundle.
 ## Installation
 
 ```bash
-bun add adf-kit
+bun add @uhteddy/adf-kit
 # or
-npm install adf-kit
+npm install @uhteddy/adf-kit
 ```
 
 ---
@@ -37,7 +37,7 @@ npm install adf-kit
 ### New car purchase lead
 
 ```ts
-import { ADFProspectBuilder } from 'adf-kit';
+import { ADFProspectBuilder } from '@uhteddy/adf-kit';
 
 const xml = new ADFProspectBuilder()
   .vehicle({
@@ -149,7 +149,7 @@ const xml = new ADFProspectBuilder()
 ### Lead with multiple vehicles of interest
 
 ```ts
-import { ADFBuilder } from 'adf-kit';
+import { ADFBuilder } from '@uhteddy/adf-kit';
 
 const xml = new ADFBuilder()
   .prospect(p => p
@@ -191,7 +191,7 @@ const xml = new ADFProspectBuilder()
 ### Basic parse
 
 ```ts
-import { ADFparse } from 'adf-kit';
+import { ADFparse } from '@uhteddy/adf-kit';
 
 const doc = ADFparse(xmlString);
 // doc.prospects[0].vehicles[0].make  → "Toyota"
@@ -201,7 +201,7 @@ const doc = ADFparse(xmlString);
 ### Parse + validate
 
 ```ts
-import { ADFparse, ADFvalidate } from 'adf-kit';
+import { ADFparse, ADFvalidate } from '@uhteddy/adf-kit';
 
 let doc;
 try {
@@ -226,7 +226,7 @@ for (const warn of result.warnings) {
 ### Extracting lead data
 
 ```ts
-import { ADFparse } from 'adf-kit';
+import { ADFparse } from '@uhteddy/adf-kit';
 
 const doc = ADFparse(xmlString);
 
@@ -248,7 +248,7 @@ for (const prospect of doc.prospects) {
 ### Round-trip: parse → modify → serialize
 
 ```ts
-import { ADFparse, ADFserialize } from 'adf-kit';
+import { ADFparse, ADFserialize } from '@uhteddy/adf-kit';
 
 const doc = parse(inboundXml);
 doc.prospects[0].status = 'resend';
