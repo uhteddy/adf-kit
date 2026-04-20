@@ -543,7 +543,14 @@ function toXMLBlob(doc: ADFDocument): Blob {
  * await fetch(dealerEndpoint, { method: 'POST', body: blob });
  * ```
  */
-export class ADFProspectBuilder {
+/** Tracks which required fields have been set on {@link ADFProspectBuilder}. */
+type ProspectReady = { vehicle: true; customer: true; vendor: true };
+
+export class ADFProspectBuilder<S extends Partial<ProspectReady> = {}> {
+  // Phantom field — never exists at runtime; makes S structurally nominal so
+  // ADFProspectBuilder<{}> ≠ ADFProspectBuilder<ProspectReady> to the compiler.
+  declare private _s: S;
+
   private _vehicles: VehicleInput[] = [];
   private _customer: CustomerInput | undefined;
   private _vendor: VendorInput | undefined;
@@ -552,47 +559,47 @@ export class ADFProspectBuilder {
   private _status: ProspectStatus = "new";
 
   /** Add a vehicle to this lead (call multiple times for multiple vehicles). */
-  vehicle(input: VehicleInput): this {
+  vehicle(input: VehicleInput): ADFProspectBuilder<S & { vehicle: true }> {
     this._vehicles.push(input);
-    return this;
+    return this as any;
   }
 
   /** Set the customer (buyer) for this lead. */
-  customer(input: CustomerInput): this {
+  customer(input: CustomerInput): ADFProspectBuilder<S & { customer: true }> {
     this._customer = input;
-    return this;
+    return this as any;
   }
 
   /** Set the vendor (dealer) this lead is for. */
-  vendor(input: VendorInput): this {
+  vendor(input: VendorInput): ADFProspectBuilder<S & { vendor: true }> {
     this._vendor = input;
-    return this;
+    return this as any;
   }
 
   /** Optionally set the lead source / provider. */
-  provider(input: ProviderInput): this {
+  provider(input: ProviderInput): ADFProspectBuilder<S> {
     this._provider = input;
-    return this;
+    return this as any;
   }
 
   /** Override the request date. Defaults to now when not set. */
-  requestDate(date: Date | string): this {
+  requestDate(date: Date | string): ADFProspectBuilder<S> {
     this._requestDate = date;
-    return this;
+    return this as any;
   }
 
   /** Mark this as a resent lead. Defaults to "new". */
-  status(s: ProspectStatus): this {
+  status(s: ProspectStatus): ADFProspectBuilder<S> {
     this._status = s;
-    return this;
+    return this as any;
   }
 
   // --------------------------------------------------------
-  // Terminal methods
+  // Terminal methods — only available once all required fields are set.
   // --------------------------------------------------------
 
   /** Build and return the typed {@link ADFProspect} object. */
-  build(): ADFProspect {
+  build(this: ADFProspectBuilder<ProspectReady>): ADFProspect {
     if (this._vehicles.length === 0) {
       throw new Error("ADFProspectBuilder: at least one vehicle is required");
     }
@@ -617,7 +624,7 @@ export class ADFProspectBuilder {
    *
    * Use this when your HTTP client or email library takes a raw string body.
    */
-  string(): string {
+  string(this: ADFProspectBuilder<ProspectReady>): string {
     return toXMLString({ version: "1.0", prospects: [this.build()] });
   }
 
@@ -639,7 +646,7 @@ export class ADFProspectBuilder {
    * transporter.sendMail({ attachments: [{ filename: 'lead.xml', content: buf }] });
    * ```
    */
-  xml(): Blob {
+  xml(this: ADFProspectBuilder<ProspectReady>): Blob {
     return toXMLBlob({ version: "1.0", prospects: [this.build()] });
   }
 }
@@ -696,7 +703,7 @@ export class ADFBuilder {
   prospect(
     input:
       | ProspectInput
-      | ((builder: ADFProspectBuilder) => ADFProspectBuilder),
+      | ((builder: ADFProspectBuilder) => ADFProspectBuilder<ProspectReady>),
   ): this {
     if (typeof input === "function") {
       this._prospects.push(input(new ADFProspectBuilder()).build());
