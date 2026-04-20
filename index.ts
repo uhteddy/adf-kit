@@ -7,18 +7,18 @@
 // ----------------------------------------------------------
 // Parsing — XML → typed ADFDocument
 // ----------------------------------------------------------
-export { parse } from './src/parser.ts';
+export { parse as ADFparse } from "./src/parser.ts";
 
 // ----------------------------------------------------------
 // Validation
 // ----------------------------------------------------------
-export { validate } from './src/validator.ts';
+export { validate as ADFvalidate } from "./src/validator.ts";
 
 // ----------------------------------------------------------
 // Low-level serialization — ADFDocument → XML string
 // (Use the builder / generator API below for new leads)
 // ----------------------------------------------------------
-export { serialize } from './src/serializer.ts';
+export { serialize as ADFserialize } from "./src/serializer.ts";
 
 // ----------------------------------------------------------
 // Generation — build ADF leads without reading the spec
@@ -48,13 +48,13 @@ export {
   buildDocument,
   generateProspect,
   generateADF,
-} from './src/generator.ts';
+} from "./src/generator.ts";
 
 // ----------------------------------------------------------
 // Fully-typed ADF entity interfaces (parsed / built documents)
 // ----------------------------------------------------------
-export type { CurrencyCode } from 'currency-codes-ts/dist/types';
-export type { Alpha2Code } from 'i18n-iso-countries';
+export type { CurrencyCode } from "currency-codes-ts/dist/types";
+export type { Alpha2Code } from "i18n-iso-countries";
 
 export type {
   ADFDocument,
@@ -98,7 +98,7 @@ export type {
   PhoneType,
   PhoneTime,
   AddressType,
-} from './src/types.ts';
+} from "./src/types.ts";
 
 // ----------------------------------------------------------
 // Simplified input types (for the builder / generator API)
@@ -118,10 +118,14 @@ export type {
   OdometerInput,
   FinanceInput,
   OptionInput,
-} from './src/generator.ts';
+} from "./src/generator.ts";
 
 // ----------------------------------------------------------
 // Errors and validation result types
 // ----------------------------------------------------------
-export type { ValidationIssue, ValidationResult, IssueSeverity } from './src/errors.ts';
-export { ADFParseError, ADFValidationError } from './src/errors.ts';
+export type {
+  ValidationIssue,
+  ValidationResult,
+  IssueSeverity,
+} from "./src/errors.ts";
+export { ADFParseError, ADFValidationError } from "./src/errors.ts";

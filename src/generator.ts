@@ -114,10 +114,10 @@ export interface AddressInput {
   street: string | string[];
   apartment?: string;
   city?: string;
-  /** State or province (2-char code recommended for N. America) */
-  state?: string;
+  /** State or province code, e.g. "TX", "CA" */
+  regionCode?: string;
   /** ZIP / postal code */
-  zip?: string;
+  postalCode?: string;
   /** ISO 3166-1 alpha-2 country code, e.g. "US" */
   country?: Alpha2Code;
   type?: AddressType;
@@ -274,8 +274,8 @@ function convertAddress(a: AddressInput): ADFAddress {
     streets,
     apartment: a.apartment,
     city: a.city,
-    regionCode: a.state,
-    postalCode: a.zip,
+    regionCode: a.regionCode,
+    postalCode: a.postalCode,
     country: a.country,
     type: a.type,
   };

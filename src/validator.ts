@@ -371,8 +371,23 @@ function validateProspect(
 /**
  * Validate an {@link ADFDocument} against the ADF 1.0 specification.
  *
- * Returns a {@link ValidationResult} describing all errors and warnings found.
- * Does not throw — inspect `result.valid` to determine pass/fail.
+ * Checks required fields, ISO 8601 dates, VIN format, ISO 4217 currency codes,
+ * ISO 3166-1 country codes, email format, and numeric range constraints.
+ *
+ * @param doc - A parsed or built {@link ADFDocument}.
+ * @returns A {@link ValidationResult} with `valid`, `errors`, and `warnings`.
+ *   Errors are spec violations; warnings are non-fatal advisory issues.
+ *   Never throws — inspect `result.valid` to determine pass/fail.
+ *
+ * @example
+ * ```ts
+ * const result = validate(doc);
+ * if (!result.valid) {
+ *   for (const issue of result.errors) {
+ *     console.error(`[${issue.path}] ${issue.message}`);
+ *   }
+ * }
+ * ```
  */
 export function validate(doc: ADFDocument): ValidationResult {
   const col = new IssueCollector();

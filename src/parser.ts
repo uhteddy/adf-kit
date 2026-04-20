@@ -586,7 +586,22 @@ function preprocessXML(raw: string): PreprocessResult {
 /**
  * Parse an ADF XML string into a typed {@link ADFDocument}.
  *
+ * The parser is lenient: it coerces values to their expected types and fills
+ * in defaults for optional attributes. Call {@link validate} afterward to
+ * enforce spec rules.
+ *
+ * @param xmlString - A complete ADF 1.0 XML document as a string.
+ * @returns A fully-typed {@link ADFDocument} object.
  * @throws {ADFParseError} if the XML is malformed or required ADF elements are missing.
+ *
+ * @example
+ * ```ts
+ * import { parse, validate } from 'adf-kit';
+ *
+ * const doc = parse(xmlString);
+ * const result = validate(doc);
+ * if (!result.valid) console.error(result.errors);
+ * ```
  */
 export function parse(xmlString: string): ADFDocument {
   const { xml, adfVersion } = preprocessXML(xmlString);

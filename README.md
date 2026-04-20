@@ -20,9 +20,9 @@ npm install adf-kit
 
 | Export | Description |
 |---|---|
-| `parse(xml)` | Parse an ADF XML string into a typed `ADFDocument` |
-| `validate(doc)` | Validate a document against the ADF 1.0 spec — returns errors/warnings without throwing |
-| `serialize(doc)` | Serialize a typed `ADFDocument` back to ADF XML |
+| `ADFparse(xml)` | Parse an ADF XML string into a typed `ADFDocument` |
+| `ADFvalidate(doc)` | Validate a document against the ADF 1.0 spec — returns errors/warnings without throwing |
+| `ADFserialize(doc)` | Serialize a typed `ADFDocument` back to ADF XML |
 | `ADFProspectBuilder` | Fluent builder for a single lead — call `.string()` or `.xml()` to get output |
 | `ADFBuilder` | Fluent builder for a multi-prospect document |
 | `generateProspect(input)` | One-shot: convert a `ProspectInput` object directly to XML |
@@ -191,9 +191,9 @@ const xml = new ADFProspectBuilder()
 ### Basic parse
 
 ```ts
-import { parse } from 'adf-kit';
+import { ADFparse } from 'adf-kit';
 
-const doc = parse(xmlString);
+const doc = ADFparse(xmlString);
 // doc.prospects[0].vehicles[0].make  → "Toyota"
 // doc.prospects[0].customer.contact.emails[0].value  → "jane@example.com"
 ```
@@ -201,7 +201,7 @@ const doc = parse(xmlString);
 ### Parse + validate
 
 ```ts
-import { parse, validate } from 'adf-kit';
+import { ADFparse, ADFvalidate } from 'adf-kit';
 
 let doc;
 try {
@@ -226,9 +226,9 @@ for (const warn of result.warnings) {
 ### Extracting lead data
 
 ```ts
-import { parse } from 'adf-kit';
+import { ADFparse } from 'adf-kit';
 
-const doc = parse(xmlString);
+const doc = ADFparse(xmlString);
 
 for (const prospect of doc.prospects) {
   const { customer, vendor, vehicles, requestDate, status } = prospect;
@@ -248,18 +248,18 @@ for (const prospect of doc.prospects) {
 ### Round-trip: parse → modify → serialize
 
 ```ts
-import { parse, serialize } from 'adf-kit';
+import { ADFparse, ADFserialize } from 'adf-kit';
 
 const doc = parse(inboundXml);
 doc.prospects[0].status = 'resend';
-const updatedXml = serialize(doc);
+const updatedXml = ADFserialize(doc);
 ```
 
 ---
 
 ## Validation Reference
 
-`validate()` never throws. It returns:
+`ADFvalidate()` never throws. It returns:
 
 ```ts
 {

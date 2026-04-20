@@ -324,6 +324,21 @@ function writeProspect(w: XMLWriter, prospect: ADFProspect): void {
 
 /**
  * Serialize an {@link ADFDocument} to an ADF 1.0 XML string.
+ *
+ * Produces a well-formed ADF document with the `<?ADF version "1.0"?>` processing
+ * instruction and standard XML declaration. Optional attributes with default values
+ * are omitted to keep output compact.
+ *
+ * @param doc - A typed {@link ADFDocument} (from {@link parse} or a builder).
+ * @returns A complete ADF XML string ready to transmit or store.
+ *
+ * @example
+ * ```ts
+ * // Round-trip: parse → modify → re-serialize
+ * const doc = parse(inboundXml);
+ * doc.prospects[0].status = 'resend';
+ * const xml = serialize(doc);
+ * ```
  */
 export function serialize(doc: ADFDocument): string {
   const w = new XMLWriter();

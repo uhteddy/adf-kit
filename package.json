@@ -13,7 +13,7 @@
   },
   "files": ["dist"],
   "scripts": {
-    "build": "bun build ./index.ts --outdir ./dist --target bun && tsc --project tsconfig.build.json",
+    "build": "bun build ./index.ts --outdir ./dist --target bun --sourcemap=linked && tsc --project tsconfig.build.json",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
