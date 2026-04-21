@@ -1,6 +1,6 @@
 {
   "name": "@uhteddy/adf-kit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -19,7 +19,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "bun build ./index.ts --outdir ./dist --target bun --sourcemap=linked && tsc --project tsconfig.build.json",
+    "build": "bun build ./index.ts --outdir ./dist --minify --target bun --sourcemap=linked && tsc --project tsconfig.build.json",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
